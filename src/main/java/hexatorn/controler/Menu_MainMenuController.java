@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public class MenuController {
+public class Menu_MainMenuController {
     @FXML
     ImageView imLogo;
     @FXML
@@ -38,7 +38,7 @@ public class MenuController {
     * Wykozystane klasie rodzica podczas inicjalizacji menu
     */
 
-    App mainApp;
+    private App mainApp;
     public void setMainApp(App mainApp) {
         this.mainApp = mainApp;
     }
@@ -69,7 +69,7 @@ public class MenuController {
 
     private void btnOpcjeOnActionHandler(){
         try {
-            mainApp.setOptionViewAtRootLayout();
+            mainApp.showSubMenuOption();
         } catch (IOException e) {
             e.printStackTrace();
         }

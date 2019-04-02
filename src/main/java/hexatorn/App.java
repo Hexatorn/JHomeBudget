@@ -1,7 +1,7 @@
 package hexatorn;
 
 import hexatorn.controler.CashFlowController;
-import hexatorn.controler.MenuController;
+import hexatorn.controler.Menu_MainMenuController;
 import hexatorn.data.Bill;
 import hexatorn.util.ReadXLSX;
 import javafx.application.Application;
@@ -25,6 +25,7 @@ public class App extends Application
 {
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private BorderPane menuPanel;
     private ObservableList<Bill> listOfBills = FXCollections.observableArrayList();
 
     /*
@@ -71,7 +72,8 @@ public class App extends Application
         this.primaryStage.setTitle("JHomeBudget");
 
         initRootLayout();
-        setMenuAtRootLayout();
+        setMenuPanelAtRootLayout();
+        //setMainMenuAtMenuPanel();
         //TODO zmienić ładowaną scenę
         setSplashAtRootLayout();
         //setCashFlowAtRootLayout();
@@ -92,24 +94,74 @@ public class App extends Application
 
     /*
     * EN
-    * Add Menu to Root Layout
-    * Intentionally pernamettly added menu to left side of Root Layout - > left side of Border Pane
+    * Add Menu Panel to Root Layout
+    * Intentionally pernamettly added Menu Panel to left side of Root Layout - > left side of Border Pane
     * PL
-    * Dodanie Menu do Głównego Layoutu
-    * Intencionalnie pernamentne dodanie menu do Głównego Leyautu po lewej stronie.
+    * Dodanie Panelu Menu do Głównego Layoutu
+    * Intencionalnie pernamentne dodanie panelu menu do Głównego Leyautu po lewej stronie.
     */
 
-    private void setMenuAtRootLayout() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Menu.fxml"));
-        VBox menu = loader.load();
-        rootLayout.setLeft(menu);
+    private void setMenuPanelAtRootLayout() throws IOException {
+        //FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ManuPanel.fxml"));
+        //BorderPane menuPanel = loader.load();
+
+        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Manu_MenuPanel.fxml"));
+        menuPanel = loader.load();
+        rootLayout.setLeft(menuPanel);
         rootLayout.setMinSize(
+                menuPanel.getPrefWidth(),
+                menuPanel.getHeight()
+        );
+        setMainMenuAtMenuPanel();
+        //setSubMenuAtMenuPanel();
+    }
+
+
+
+    private void setMainMenuAtMenuPanel() throws IOException {
+        //FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ManuPanel.fxml"));
+        //BorderPane menu = loader.load();
+
+        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Manu_MainMenu.fxml"));
+
+        VBox menu = loader.load();
+        //rootLayout.setLeft(menu);
+        //borderPaneMenu.setLeft(menu);
+        menuPanel.setCenter(menu);
+/*        rootLayout.setMinSize(
                 menu.getPrefWidth(),
                 menu.getHeight()
-        );
-        MenuController controller = loader.getController();
+        );*/
+        Menu_MainMenuController controller = loader.getController();
         controller.setMainApp(this);
     }
+
+    private void setSubMenuAtMenuPanel() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Menu_SubMenu_Option.fxml"));
+        VBox subMenu = loader.load();
+        menuPanel.setRight(subMenu);
+    }
+
+    public void showSubMenuOption() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Menu_SubMenu_Option.fxml"));
+        VBox subMenu = loader.load();
+        menuPanel.setRight(subMenu);
+
+        menuPanel.setMinWidth(340);
+
+        VBox mainMenu = (VBox) menuPanel.getCenter();
+        mainMenu.setMinWidth(210);
+        //rootLayout.setCenter(borderPane);
+    }
+
+    private void hideSubMenu(){
+        menuPanel.setMinWidth(300);
+        menuPanel.setRight(null);
+        VBox mainMenu = (VBox) menuPanel.getCenter();
+        mainMenu.setMinWidth(300);
+    }
+
+
     /*
     * EN
     * Set the Center Panel contents in the Border Panel
@@ -119,7 +171,7 @@ public class App extends Application
     * 2 CashFlow Layout
     * 3 Option Layout
     */
-    public void setSplashAtRootLayout() throws IOException {
+    private void setSplashAtRootLayout() throws IOException {
         AnchorPane splash = FXMLLoader.load(getResources("resources/FXML View/SplashView.fxml"));
         rootLayout.setCenter(splash);
         rootLayout.setMinWidth(
@@ -128,6 +180,7 @@ public class App extends Application
     }
 
     public void setCashFlowAtRootLayout() throws IOException {
+        hideSubMenu();
         FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/CashFlow.fxml"));
         AnchorPane anchorPane = loader.load();
         rootLayout.setCenter(anchorPane);
@@ -135,9 +188,6 @@ public class App extends Application
         cashFlowController.setApp(this);
     }
 
-    public void setOptionViewAtRootLayout() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/OptionView.fxml"));
-        BorderPane borderPane = loader.load();
-        rootLayout.setCenter(borderPane);
-    }
+
+
 }

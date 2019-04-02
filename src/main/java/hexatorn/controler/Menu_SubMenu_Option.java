@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import static hexatorn.util.Resources.getResources;
-public class OptionViewController {
+public class Menu_SubMenu_Option {
 
     @FXML
     Label lbl_import;
@@ -22,7 +22,7 @@ public class OptionViewController {
     @FXML
     Button btn_export;
     @FXML
-    BorderPane bp_Option;
+    private BorderPane bp_Option;
 
 
     @FXML
@@ -35,10 +35,10 @@ public class OptionViewController {
 
     private void btnImportHandle() {
 
-        AnchorPane importPane = null;
+
         try {
             FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/OptionView_Import.fxml"));
-            importPane = loader.load();
+            AnchorPane importPane = loader.load();
             bp_Option.setCenter(importPane);
         } catch (IOException e) {
             e.printStackTrace();
