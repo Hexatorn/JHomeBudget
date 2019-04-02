@@ -102,9 +102,6 @@ public class App extends Application
     */
 
     private void setMenuPanelAtRootLayout() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ManuPanel.fxml"));
-        //BorderPane menuPanel = loader.load();
-
         FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Manu_MenuPanel.fxml"));
         menuPanel = loader.load();
         rootLayout.setLeft(menuPanel);
@@ -113,46 +110,52 @@ public class App extends Application
                 menuPanel.getHeight()
         );
         setMainMenuAtMenuPanel();
-        //setSubMenuAtMenuPanel();
     }
 
+    /*
+    * EN
+    * Add Main Menu to Menu Panel
+    * Intentionally pernamettly added Main Menu to center Menu Panel - > center of Border Pane
+    * PL
+    * Dodanie Głównego Menu do Menu Panel
+    * Intencionalnie pernamentne dodanie Głownego Menu do Menu Panelu -> Centrala część Border Panel.
+    */
 
 
     private void setMainMenuAtMenuPanel() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ManuPanel.fxml"));
-        //BorderPane menu = loader.load();
-
         FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Manu_MainMenu.fxml"));
-
         VBox menu = loader.load();
-        //rootLayout.setLeft(menu);
-        //borderPaneMenu.setLeft(menu);
         menuPanel.setCenter(menu);
-/*        rootLayout.setMinSize(
-                menu.getPrefWidth(),
-                menu.getHeight()
-        );*/
         Menu_MainMenuController controller = loader.getController();
         controller.setMainApp(this);
     }
 
-    private void setSubMenuAtMenuPanel() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Menu_SubMenu_Option.fxml"));
-        VBox subMenu = loader.load();
-        menuPanel.setRight(subMenu);
-    }
+    /*
+    * EN
+    * Show Submenu
+    * Change the width of the Panel Menu and Main Menu and adding the Sub Menu to the right side of the Panel Menu (Border Panel)
+    * PL
+    * Pokazanie podmenu
+    * Zmiana szerokości Panel Menu i Main Menu i dodanie Sub Menu do prawej strony Menu Panel (Border Panel)
+    */
 
     public void showSubMenuOption() throws IOException {
         FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Menu_SubMenu_Option.fxml"));
         VBox subMenu = loader.load();
         menuPanel.setRight(subMenu);
-
         menuPanel.setMinWidth(340);
-
         VBox mainMenu = (VBox) menuPanel.getCenter();
         mainMenu.setMinWidth(210);
-        //rootLayout.setCenter(borderPane);
     }
+
+    /*
+     * EN
+     * Hide Submenu
+     * Change the width of the Panel Menu and Main Menu and remove the Sub Menu from the Panel Menu.
+     * PL
+     * Ukrucie podmenu
+     * Zmiana szerokości Panel Menu i Main Menu i usunięcie Sub Menu z Menu Panel
+     */
 
     private void hideSubMenu(){
         menuPanel.setMinWidth(300);

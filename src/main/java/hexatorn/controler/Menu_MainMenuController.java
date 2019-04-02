@@ -64,7 +64,7 @@ public class Menu_MainMenuController {
     * Change Center Panel contains
     * PL
     * Akcje wykonywane przez przyciski
-    * Zmiana zawartości center Panel.
+    * Zmiana zawartości głównego Panelu.
     */
 
     private void btnOpcjeOnActionHandler(){
