@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="999999.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="300.0" prefHeight="700.0" prefWidth="210.0" styleClass="background" stylesheets="@../MenuTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.Menu_MainMenuController">
+<VBox maxHeight="999999.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="300.0" prefHeight="700.0" prefWidth="210.0" styleClass="background" stylesheets="@../MenuTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.ControllerMenu_MainMenu">
 
       <ImageView fx:id="imLogo" fitHeight="217.0" fitWidth="300.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="btnCashFlow" mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Cash Flow                                      " textOverrun="CLIP">

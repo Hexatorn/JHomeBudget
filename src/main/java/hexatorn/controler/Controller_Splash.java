@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 
 import java.net.MalformedURLException;
 
-public class SplashController {
+public class Controller_Splash {
     @FXML
     ImageView imSplash;
 

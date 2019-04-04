@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class CashFlowController {
+public class Controller_CashFlow {
     private ArrayList<Double> percentColumnWidthArrayList = new ArrayList<>();
     private ObservableList<Bill> listOfBills;
     private App app;

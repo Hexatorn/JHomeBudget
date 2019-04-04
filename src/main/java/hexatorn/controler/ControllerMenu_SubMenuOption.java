@@ -1,5 +1,6 @@
 package hexatorn.controler;
 
+import hexatorn.App;
 import hexatorn.util.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+
 import java.io.IOException;
 import static hexatorn.util.Resources.getResources;
-public class Menu_SubMenu_Option {
+public class ControllerMenu_SubMenuOption {
 
     @FXML
     ImageView imLogo;
@@ -25,14 +26,26 @@ public class Menu_SubMenu_Option {
     Button btn_import;
     @FXML
     Button btn_export;
-    @FXML
-    private BorderPane bp_Option;
+
+    /*
+     * EN
+     * Setting the reference to the parent
+     * Used in parent class when initialized Menu
+     * PL
+     * Ustawienie odwołania do klasy rodzica
+     * Wykozystane klasie rodzica podczas inicjalizacji menu
+     */
+
+    private App mainApp;
+    public void setMainApp(App mainApp) {
+        this.mainApp = mainApp;
+    }
 
 
     @FXML
     private void initialize(){
         imLogo.setImage(subImege());
-        btn_import.setOnAction(event -> btnImportHandle());
+        btn_import.setOnAction(event -> btnImportFromExcelHandle());
     }
 
     /*
@@ -44,11 +57,11 @@ public class Menu_SubMenu_Option {
      * Zmiana zawartości głównego Panelu.
      */
 
-    private void btnImportHandle() {
+    private void btnImportFromExcelHandle() {
         try {
-            FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/OptionView_Import.fxml"));
+            FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ViewOption_ImportFromExcel.fxml"));
             AnchorPane importPane = loader.load();
-            bp_Option.setCenter(importPane);
+            mainApp.getRootLayout().setCenter(importPane);
         } catch (IOException e) {
             e.printStackTrace();
         }

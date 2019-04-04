@@ -1,46 +1,77 @@
 package hexatorn.util;
 
 import hexatorn.data.Bill;
+import hexatorn.util.enumeration.Dictionary_Table_Name;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ProgressBar;
 import java.sql.*;
-import java.time.LocalDate;
 
 
 public class WriteToDataBase {
 
-    /*public static final String DRIVER = "org.sqlite.JDBC";
-    public static final String DB_URL = "jdbc:sqlite:baza.db";*/
     private static Connection connection;
     private static Statement query;
 
+    /*
+    * EN
+    * Main method realize writing receipts to the database.
+    * PL
+    * Główna metoda realizująca zapisa paragonów/płatności/operacji finansowych do bazy danych.
+    */
+    static public void writeToBase(ObservableList<Bill> listOfBills, ProgressBar progressBar, double step){
 
-
-    static public void WriteToBase(ObservableList<Bill> listOfBills){
-
+        /*
+        * EN
+        * Open connection with database
+        * PL
+        * Otwarcie połączenia z bazą danych
+        */
         connection = CreateConnectionToDatabase.connect();
+        /*
+         * EN
+         * Create Statment -> Object allows communication with a database
+         * PL
+         * Stworzenie obiektu umożliwiającego komunikację z bazą danych.
+         */
         query = CreateConnectionToDatabase.getQueryStatment();
-
-
 
         for (Bill bill:listOfBills) {
             addBill(bill);
+            progressBar.setProgress(progressBar.getProgress()+step);
+            progressBar.setProgress(progressBar.getProgress()+step);
         }
-
+        /*
+        * EN
+        * Close connection with database
+        * PL
+        * Zamknięcie połączenia z bazą danych
+        */
         try {
             connection.close();
         } catch (SQLException e) {
             System.err.println("Nieudane zamknięcie połączenia z bazą danych");
             e.printStackTrace();
         }
-
     }
 
+    /*static public void writeToBase (ObservableList<Bill> listOfBill){
+        ProgressBar fakeProgressBar  = new ProgressBar();
+        double fakeStep = 0;
+        writeToBase(listOfBill,fakeProgressBar,fakeStep);
+    }*/
+
+    /*
+     * EN
+     * Write data to data base
+     * PL
+     * Zapis danych do bazy danych
+     */
     private static int addBill(Bill bill){
 
         int placeID, goodID, catID, subCatID;
         
-        placeID = addToDictionary(bill.getPlace(), Table_Name.Dictionary_Places );
-        goodID = addToDictionary(bill.getGoodsOrServices(), Table_Name.Dictionary_GoodsAndServices);
+        placeID = addToDictionary(bill.getPlace(), Dictionary_Table_Name.Dictionary_Places );
+        goodID = addToDictionary(bill.getGoodsOrServices(), Dictionary_Table_Name.Dictionary_GoodsAndServices);
         catID = addCategory(bill.getCategory(),0);
         //todo sprawdzić czy kat ID jest rootem
         subCatID = addCategory(bill.getSubcategory(),catID);
@@ -73,8 +104,18 @@ public class WriteToDataBase {
         return 0;
     }
 
-
-
+    /*
+     * EN
+     * Check can value exist in database. Exacly in category table.
+     * If value exist in data base, returned its id.
+     * If value not exist in data base, add it to database and return its id.
+     * As parent should be set anther category id for subcategory or 0 for main category
+     * PL
+     * Sprawdza czy w tabeli słownikowej jest wartość.
+     * Jeżeli jet to zwraca jej id z bazy danych.
+     * Jeżeli nie to dodaje do bazy danych i zwraca jej id.
+     * Jako rodzic (parent) powinno zostać podane id innej kategori jeżeli chcemy stworzyć podkategorię lub 0 dla głównej kategori.
+     */
     private static  int addCategory (String value,int parent){
         ResultSet result;
         try {
@@ -111,7 +152,17 @@ public class WriteToDataBase {
         return -1;
     }
 
-    private static int addToDictionary(String value, Table_Name table_name) {
+    /*
+    * EN
+    * Check can value exist in database. Exacly in dictionary table.
+    * If value exist in data base, returned its id.
+    * If value not exist in data base, add it to database and return its id.
+    * PL
+    * Sprawdza czy w tabeli słownikowej jest wartość.
+    * Jeżeli jet to zwraca jej id z bazy danych.
+    * Jeżeli nie to dodaje do bazy danych i zwraca jej id.
+    */
+    private static int addToDictionary(String value, Dictionary_Table_Name table_name) {
         try {
             PreparedStatement select = connection.prepareStatement(
                     "SELECT id FROM "+ table_name.toString()+" WHERE name = ?");
@@ -136,11 +187,4 @@ public class WriteToDataBase {
         }
         return 0;
     }
-
-
-
-
-
-
-
 }

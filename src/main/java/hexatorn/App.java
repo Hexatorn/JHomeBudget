@@ -1,9 +1,10 @@
 package hexatorn;
 
-import hexatorn.controler.CashFlowController;
-import hexatorn.controler.Menu_MainMenuController;
+import hexatorn.controler.Controller_CashFlow;
+import hexatorn.controler.ControllerMenu_MainMenu;
+import hexatorn.controler.ControllerMenu_SubMenuOption;
 import hexatorn.data.Bill;
-import hexatorn.util.ReadXLSX;
+import hexatorn.util.CreateDatabaseIfNotExist;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,9 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
-
-
-
 import static hexatorn.util.Resources.getResources;
 
 
@@ -50,17 +48,11 @@ public class App extends Application
 
     public App() {
 
-        File file1 = new File("Import2018.xlsx");
-        File file2 = new File("Import2019.xlsx");
-        try {
-            ReadXLSX.ReadXLSX(file1,listOfBills);
-            ReadXLSX.ReadXLSX(file2,listOfBills);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static void main( String[] args ){
+        CreateDatabaseIfNotExist.create();
         launch(args);
     }
 
@@ -126,7 +118,7 @@ public class App extends Application
         FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/Manu_MainMenu.fxml"));
         VBox menu = loader.load();
         menuPanel.setCenter(menu);
-        Menu_MainMenuController controller = loader.getController();
+        ControllerMenu_MainMenu controller = loader.getController();
         controller.setMainApp(this);
     }
 
@@ -146,6 +138,8 @@ public class App extends Application
         menuPanel.setMinWidth(340);
         VBox mainMenu = (VBox) menuPanel.getCenter();
         mainMenu.setMinWidth(210);
+        ControllerMenu_SubMenuOption controllerer = loader.getController();
+        controllerer.setMainApp(this);
     }
 
     /*
@@ -175,7 +169,7 @@ public class App extends Application
     * 3 Option Layout
     */
     private void setSplashAtRootLayout() throws IOException {
-        AnchorPane splash = FXMLLoader.load(getResources("resources/FXML View/SplashView.fxml"));
+        AnchorPane splash = FXMLLoader.load(getResources("resources/FXML View/View_Splash.fxml"));
         rootLayout.setCenter(splash);
         rootLayout.setMinWidth(
                 rootLayout.getMinWidth() + splash.getPrefWidth()
@@ -184,11 +178,11 @@ public class App extends Application
 
     public void setCashFlowAtRootLayout() throws IOException {
         hideSubMenu();
-        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/CashFlow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/View_CashFlow.fxml"));
         AnchorPane anchorPane = loader.load();
         rootLayout.setCenter(anchorPane);
-        CashFlowController cashFlowController = loader.getController();
-        cashFlowController.setApp(this);
+        Controller_CashFlow controlerCashFlow = loader.getController();
+        controlerCashFlow.setApp(this);
     }
 
 

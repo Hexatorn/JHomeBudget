@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="600.0" prefHeight="500.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="500.0" prefHeight="500.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/8.0.111">
    <left>
 
    </left>

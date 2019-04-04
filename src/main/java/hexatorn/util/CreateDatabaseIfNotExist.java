@@ -11,21 +11,22 @@ public class CreateDatabaseIfNotExist {
         connection = CreateConnectionToDatabase.connect();
         query = CreateConnectionToDatabase.getQueryStatment();
 
-
-
-        if(createTables()==false){
+        if(!createTables()){
             System.err.println("Koniec Programu z powodu nie utworzenia Tabel");
             return;
         }
 
         fillTabelList();
 
-        if(createTrigers()==false){
+        if(!createTrigers()){
             System.err.println("Koniec Programu z powodu nie utworzenia Trigerów");
             return;
         }
-
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
