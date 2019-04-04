@@ -4,7 +4,6 @@ import hexatorn.data.Bill;
 import hexatorn.util.WriteToDataBase;
 import hexatorn.util.XLSXReader;
 import hexatorn.util.WarningAlert;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +13,7 @@ import javafx.stage.FileChooser;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+
 
 public class ControllerOption_ImportFromExcel {
 
@@ -49,8 +49,6 @@ public class ControllerOption_ImportFromExcel {
     @FXML
     private void initialize(){
 
-        btn_test_plus.setOnAction(event -> handlePlusProgressBar());
-        btn_test_minus.setOnAction(event -> handleMinusProgressBar());
         btn_chose_file.setOnAction(event -> handleChoseFile());
         btn_Import.setOnAction(event ->handleImport());
         tf_chosen_file.setOnKeyPressed(event -> handleClickTextFieldChoseFile());
@@ -65,46 +63,48 @@ public class ControllerOption_ImportFromExcel {
     */
     private void handleClickTextFieldChoseFile(){
         fileIsChosen = false;
+        progres_bar.setProgress(0);
     }
 
     /*
     * EN
-    * Import handling
+    * Start import data from exel to data base in new thred
     * PL
-    * Obsługa Importu
+    * Rozpączecie importu danych z pliku excel do bazy danych w nowym wątku
     */
     private void handleImport(){
-        ObservableList<Bill> listOfBils;
-        /*
-        * EN
-        * if flag = false
-        * file validation and create a file based on the value from the text field
-        * PL
-        * jeżeli flaga = false
-        * walidacja i utwórzenie pliku na podstawie wartości z pola tekstowego
-        */
-        if(!fileIsChosen){
-            String filename = tf_chosen_file.getText();
-            String[] extensions = {"xlsx", "xls"};
-            if(!FilenameUtils.isExtension(filename,extensions)){
-                WarningAlert.show("Niepoprawny plik","Niepoprawny plik","Proszę wskazać poprawny plik excel");
+        Thread importThread = new Thread(() -> {
+            ObservableList<Bill> listOfBils;
+            /*
+             * EN
+             * if flag = false
+             * file validation and create a file based on the value from the text field
+             * PL
+             * jeżeli flaga = false
+             * walidacja i utwórzenie pliku na podstawie wartości z pola tekstowego
+             */
+            if(!fileIsChosen){
+                String filename = tf_chosen_file.getText();
+                String[] extensions = {"xlsx", "xls"};
+                if(!FilenameUtils.isExtension(filename,extensions)){
+                    WarningAlert.show("Niepoprawny plik","Niepoprawny plik","Proszę wskazać poprawny plik excel");
+                    return;
+                }
+                file = new File(tf_chosen_file.getText());
+            }
+            if (!file.exists()){
+                WarningAlert.show("Niepoprawny plik","Plik nie istnieje","Proszę wskazać istniejący plik excel");
                 return;
             }
-            file = new File(tf_chosen_file.getText());
-        }
-        if (!file.exists()){
-            WarningAlert.show("Niepoprawny plik","Plik nie istnieje","Proszę wskazać istniejący plik excel");
-            return;
-        }
-        XLSXReader xlsxReader = new XLSXReader();
-        progres_bar.setProgress(-0.1);
+            XLSXReader xlsxReader = new XLSXReader();
 
-        xlsxReader.open(file);
-        int count = xlsxReader.getRowsCount();
-        double progressStep = (double) 1/(2*count);
-        progres_bar.setProgress(0);
-        listOfBils = xlsxReader.readXLSX(progres_bar,progressStep);
-        WriteToDataBase.writeToBase(listOfBils,progres_bar,progressStep);
+            xlsxReader.open(file);
+            int count = xlsxReader.getRowsCount();
+            double progressStep = (double) 1/(2*count);
+            listOfBils = xlsxReader.readXLSX(progres_bar,progressStep);
+            WriteToDataBase.writeToBase(listOfBils,progres_bar,progressStep);
+        });
+        importThread.start();
     }
 
     /*
@@ -114,6 +114,7 @@ public class ControllerOption_ImportFromExcel {
     * Wskazanie pliku do importu
     */
     private void handleChoseFile(){
+        progres_bar.setProgress(0);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Zaczytywanie danych z pliku excel");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel File","*.xlsx","*.xls");
@@ -125,14 +126,5 @@ public class ControllerOption_ImportFromExcel {
         }
 
         fileIsChosen = true;
-    }
-
-    private void handlePlusProgressBar(){
-        progres_bar.setProgress(progres_bar.getProgress()+0.1);
-        System.out.println(progres_bar.getProgress());
-    }
-    private void handleMinusProgressBar(){
-        progres_bar.setProgress(progres_bar.getProgress()-0.1);
-        System.out.println(progres_bar.getProgress());
     }
 }
