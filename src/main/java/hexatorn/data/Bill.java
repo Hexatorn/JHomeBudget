@@ -5,6 +5,7 @@ package hexatorn.data;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Bill {
 
@@ -13,28 +14,30 @@ public class Bill {
     private  DoubleProperty amount;
     private  StringProperty category;
     private  StringProperty subcategory;
-    private  ObjectProperty<LocalDate> date;
+    private  ObjectProperty<Date> date;
+    //private  ObjectProperty<LocalDate> date;
     private  StringProperty description;
     private  ObjectProperty<Person> person;
 
 
-    public Bill(String place, String goodsOrService, double amount, LocalDate date, String category, String subcategory, Person person, String description) {
+    public Bill(String place, String goodsOrService, double amount, Date date, String category, String subcategory, Person person, String description) {
         this(place,goodsOrService,amount,date,category,subcategory,person);
         setDescription(description);
     }
 
-    public Bill(String place,String goodsOrService, double amount, LocalDate date, String category, String subcategory, Person person ) {
+    public Bill(String place,String goodsOrService, double amount, Date date, String category, String subcategory, Person person ) {
         this(place,goodsOrService, amount, date, category, subcategory );
         this.person = new SimpleObjectProperty<Person>(person);
     }
 
-    public Bill(String place,String goodsOrService, double amount, LocalDate date, String category, String subcategory){
+    public Bill(String place,String goodsOrService, double amount, Date date, String category, String subcategory){
         this.place = new SimpleStringProperty(place);
         this.goodsOrServices = new SimpleStringProperty(goodsOrService);
         this.amount = new SimpleDoubleProperty(amount);
         this.category = new SimpleStringProperty(category);
         this.subcategory = new SimpleStringProperty(subcategory);
-        this.date = new SimpleObjectProperty<LocalDate>(date);
+        this.date = new SimpleObjectProperty<Date>(date);
+        //this.date = new SimpleObjectProperty<LocalDate>(date);
         this.description = new SimpleStringProperty("");
         this.person = new SimpleObjectProperty<Person>(new Person());
     }
@@ -80,13 +83,13 @@ public class Bill {
         this.subcategory.set(subcategory);
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date.get();
     }
-    public ObjectProperty<LocalDate> dateProperty() {
+    public ObjectProperty<Date> dateProperty() {
         return date;
     }
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date.set(date);
     }
 

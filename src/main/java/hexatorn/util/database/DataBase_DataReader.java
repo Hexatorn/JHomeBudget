@@ -30,8 +30,7 @@ public class DataBase_DataReader {
                         result.getString("Place"),
                         result.getString("Gods"),
                         result.getDouble("Amount"),
-                        //result.getDate("Date"),
-                        LocalDate.now(),
+                        result.getDate("Date"),
                         result.getString("Category"),
                         result.getString("SubCategory")
                 ));

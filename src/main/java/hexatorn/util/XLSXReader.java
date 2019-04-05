@@ -118,7 +118,7 @@ public class XLSXReader {
                                 //amount
                                 ,row.getCell(3).getNumericCellValue()
                                 //data
-                                ,(row.getCell(0).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                                ,(row.getCell(0).getDateCellValue())
                                 //category
                                 ,row.getCell(4).getStringCellValue()
                                 //subcategory
