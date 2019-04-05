@@ -1,6 +1,6 @@
-package hexatorn.util;
+package hexatorn.util.database;
 
-enum Triger_Name{
+enum Enum_TrigerName {
     afterInsertToDictionaryPlace,
     afterInsertToDictionaryGoodsAndServices,
     afterInsertToCategory,

@@ -13,11 +13,6 @@
     -fx-font-size: 15pt;
     -fx-text-fill: #d8d8d8;
 }
-.calendarButton {
-    -fx-padding: 5 22 5 22;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 15pt;
-}
 
 .button:hover {
     -fx-background-color: #9749AD;

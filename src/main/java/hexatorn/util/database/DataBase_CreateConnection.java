@@ -1,4 +1,4 @@
-package hexatorn.util;
+package hexatorn.util.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class CreateConnectionToDatabase {
+class DataBase_CreateConnection {
 
     private final static String DRIVER = "org.sqlite.JDBC";
     private static Connection connection;
@@ -18,7 +18,7 @@ public class CreateConnectionToDatabase {
 
 
         try {
-            Class.forName(CreateConnectionToDatabase.DRIVER);
+            Class.forName(DataBase_CreateConnection.DRIVER);
         } catch (ClassNotFoundException e) {
             System.err.println("Brak sterownika JDBC");
             e.printStackTrace();

@@ -4,7 +4,7 @@ import hexatorn.controler.Controller_CashFlow;
 import hexatorn.controler.ControllerMenu_MainMenu;
 import hexatorn.controler.ControllerMenu_SubMenuOption;
 import hexatorn.data.Bill;
-import hexatorn.util.CreateDatabaseIfNotExist;
+import hexatorn.util.database.DataBase_CreateDataBase;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.io.File;
+
 import java.io.IOException;
 import static hexatorn.util.Resources.getResources;
 
@@ -52,7 +52,7 @@ public class App extends Application
     }
 
     public static void main( String[] args ){
-        CreateDatabaseIfNotExist.create();
+        DataBase_CreateDataBase.create();
         launch(args);
     }
 

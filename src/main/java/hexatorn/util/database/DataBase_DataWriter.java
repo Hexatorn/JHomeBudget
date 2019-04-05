@@ -1,13 +1,12 @@
-package hexatorn.util;
+package hexatorn.util.database;
 
 import hexatorn.data.Bill;
-import hexatorn.util.enumeration.Dictionary_Table_Name;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ProgressBar;
 import java.sql.*;
 
 
-public class WriteToDataBase {
+public class DataBase_DataWriter {
 
     private static Connection connection;
     private static Statement query;
@@ -26,14 +25,14 @@ public class WriteToDataBase {
         * PL
         * Otwarcie połączenia z bazą danych
         */
-        connection = CreateConnectionToDatabase.connect();
+        connection = DataBase_CreateConnection.connect();
         /*
          * EN
          * Create Statment -> Object allows communication with a database
          * PL
          * Stworzenie obiektu umożliwiającego komunikację z bazą danych.
          */
-        query = CreateConnectionToDatabase.getQueryStatment();
+        query = DataBase_CreateConnection.getQueryStatment();
 
         for (Bill bill:listOfBills) {
             addBill(bill);
@@ -70,15 +69,15 @@ public class WriteToDataBase {
 
         int placeID, goodID, catID, subCatID;
         
-        placeID = addToDictionary(bill.getPlace(), Dictionary_Table_Name.Dictionary_Places );
-        goodID = addToDictionary(bill.getGoodsOrServices(), Dictionary_Table_Name.Dictionary_GoodsAndServices);
+        placeID = addToDictionary(bill.getPlace(), Enum_DictionaryTableName.Dictionary_Places );
+        goodID = addToDictionary(bill.getGoodsOrServices(), Enum_DictionaryTableName.Dictionary_GoodsAndServices);
         catID = addCategory(bill.getCategory(),0);
         //todo sprawdzić czy kat ID jest rootem
         subCatID = addCategory(bill.getSubcategory(),catID);
 
         try {
             PreparedStatement insert = connection.prepareStatement(
-                    "INSERT INTO "+Table_Name.Bills +" (id_place,id_GoodsOrServices,amount,id_category,id_sub_category,transaction_date) VALUES (?,?,?,?,?,?)");
+                    "INSERT INTO "+ Enum_TableName.Bills +" (id_place,id_GoodsOrServices,amount,id_category,id_sub_category,transaction_date) VALUES (?,?,?,?,?,?)");
             //id_place
             insert.setInt(1,placeID);
             //id_GoodsOrServices
@@ -120,7 +119,7 @@ public class WriteToDataBase {
         ResultSet result;
         try {
             PreparedStatement selectCategory = connection.prepareStatement(
-                    "SELECT id FROM "+Table_Name.Categorys +" WHERE name = ?" );
+                    "SELECT id FROM "+ Enum_TableName.Categorys +" WHERE name = ?" );
             selectCategory.setString(1,value);
             result = selectCategory.executeQuery();
 
@@ -128,11 +127,11 @@ public class WriteToDataBase {
                 PreparedStatement insertCategory;
                 if (parent == 0){
                     insertCategory = connection.prepareStatement(
-                            "INSERT INTO "+Table_Name.Categorys.toString()+" (name) VALUES (?)");
+                            "INSERT INTO "+ Enum_TableName.Categorys.toString()+" (name) VALUES (?)");
                 }
                 else {
                     insertCategory = connection.prepareStatement(
-                            "INSERT INTO "+Table_Name.Categorys.toString()+" (name, parent) VALUES (?,?)");
+                            "INSERT INTO "+ Enum_TableName.Categorys.toString()+" (name, parent) VALUES (?,?)");
                     insertCategory.setInt(2,parent);
                 }
 
@@ -162,24 +161,18 @@ public class WriteToDataBase {
     * Jeżeli jet to zwraca jej id z bazy danych.
     * Jeżeli nie to dodaje do bazy danych i zwraca jej id.
     */
-    private static int addToDictionary(String value, Dictionary_Table_Name table_name) {
+    private static int addToDictionary(String value, Enum_DictionaryTableName table_name) {
         try {
             PreparedStatement select = connection.prepareStatement(
                     "SELECT id FROM "+ table_name.toString()+" WHERE name = ?");
             select.setString(1,value);
-
             ResultSet result = select.executeQuery();
-
             if (!result.next()){
                 PreparedStatement insert = connection.prepareStatement(
                         "INSERT INTO "+ table_name.toString()+" (name) VALUES (?)");
-
                 insert.setString(1,value);
                 insert.execute();
-
                 result = select.executeQuery();
-            }
-            else{
             }
             return result.getInt(1);
         }catch (SQLException e){

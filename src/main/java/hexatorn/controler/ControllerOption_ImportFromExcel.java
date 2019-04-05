@@ -1,7 +1,7 @@
 package hexatorn.controler;
 
 import hexatorn.data.Bill;
-import hexatorn.util.WriteToDataBase;
+import hexatorn.util.database.DataBase_DataWriter;
 import hexatorn.util.XLSXReader;
 import hexatorn.util.WarningAlert;
 import javafx.collections.ObservableList;
@@ -102,7 +102,7 @@ public class ControllerOption_ImportFromExcel {
             int count = xlsxReader.getRowsCount();
             double progressStep = (double) 1/(2*count);
             listOfBils = xlsxReader.readXLSX(progres_bar,progressStep);
-            WriteToDataBase.writeToBase(listOfBils,progres_bar,progressStep);
+            DataBase_DataWriter.writeToBase(listOfBils,progres_bar,progressStep);
         });
         importThread.start();
     }

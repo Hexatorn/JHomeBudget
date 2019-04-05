@@ -1,5 +1,5 @@
-package hexatorn.util;
+package hexatorn.util.database;
 
-enum Table_Name {
+enum Enum_TableName {
     TableList, Dictionary_Places, Dictionary_GoodsAndServices, Categorys, Bills, Sync, LocalVariable
 }

@@ -1,15 +1,15 @@
-package hexatorn.util;
+package hexatorn.util.database;
 
 import java.sql.*;
 
-public class CreateDatabaseIfNotExist {
+public class DataBase_CreateDataBase {
 
     private static Connection connection;
     private static Statement query;
 
     public static void create(){
-        connection = CreateConnectionToDatabase.connect();
-        query = CreateConnectionToDatabase.getQueryStatment();
+        connection = DataBase_CreateConnection.connect();
+        query = DataBase_CreateConnection.getQueryStatment();
 
         if(!createTables()){
             System.err.println("Koniec Programu z powodu nie utworzenia Tabel");
@@ -33,15 +33,15 @@ public class CreateDatabaseIfNotExist {
 
     private static boolean createTrigers(){
         try {
-            createTrigerAfterInsert(Triger_Name.afterInsertToDictionaryPlace , Table_Name.Dictionary_Places);
-            createTrigerAfterInsert(Triger_Name.afterInsertToDictionaryGoodsAndServices,Table_Name.Dictionary_GoodsAndServices);
-            createTrigerAfterInsert(Triger_Name.afterInsertToCategory,Table_Name.Categorys);
-            createTrigerAfterInsert(Triger_Name.afterInsertToBills,Table_Name.Bills);
+            createTrigerAfterInsert(Enum_TrigerName.afterInsertToDictionaryPlace , Enum_TableName.Dictionary_Places);
+            createTrigerAfterInsert(Enum_TrigerName.afterInsertToDictionaryGoodsAndServices, Enum_TableName.Dictionary_GoodsAndServices);
+            createTrigerAfterInsert(Enum_TrigerName.afterInsertToCategory, Enum_TableName.Categorys);
+            createTrigerAfterInsert(Enum_TrigerName.afterInsertToBills, Enum_TableName.Bills);
 
-            createTrigerAfterUpdate(Triger_Name.afterUpdateDictionaryPlace,Table_Name.Dictionary_Places);
-            createTrigerAfterUpdate(Triger_Name.afterUpdateDictionaryGoodsAndServices,Table_Name.Dictionary_GoodsAndServices);
-            createTrigerAfterUpdate(Triger_Name.afterUpdateCategory,Table_Name.Categorys);
-            createTrigerAfterUpdate(Triger_Name.afterUpdateBills,Table_Name.Bills);
+            createTrigerAfterUpdate(Enum_TrigerName.afterUpdateDictionaryPlace, Enum_TableName.Dictionary_Places);
+            createTrigerAfterUpdate(Enum_TrigerName.afterUpdateDictionaryGoodsAndServices, Enum_TableName.Dictionary_GoodsAndServices);
+            createTrigerAfterUpdate(Enum_TrigerName.afterUpdateCategory, Enum_TableName.Categorys);
+            createTrigerAfterUpdate(Enum_TrigerName.afterUpdateBills, Enum_TableName.Bills);
 
         } catch (SQLException e) {
             System.err.println("Bład przy tworzeniu Trigerów");
@@ -54,30 +54,30 @@ public class CreateDatabaseIfNotExist {
 
     private static boolean createTables()  {
 
-        String createTableList = "CREATE TABLE IF NOT EXISTS "+ Table_Name.TableList +" ( " +
+        String createTableList = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.TableList +" ( " +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "name varchar(255))";
 
-        String createSync = "CREATE TABLE IF NOT EXISTS "+ Table_Name.Sync +" ( " +
+        String createSync = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.Sync +" ( " +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 "table_id Integer not null, " +
                 "row_id Integer not null, " +
                 "create_date INTEGER NOT NULL, " +
                 "last_edit_date INTEGER)";
 
-        String createDictionaryPlaces = "CREATE TABLE IF NOT EXISTS "+Table_Name.Dictionary_Places+" (" +
+        String createDictionaryPlaces = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.Dictionary_Places+" (" +
                 " id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 " name varchar(255) NOT NULL)";
 
-        String createDictionaryGoodsAndServices = "CREATE TABLE IF NOT EXISTS "+Table_Name.Dictionary_GoodsAndServices+" (" +
+        String createDictionaryGoodsAndServices = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.Dictionary_GoodsAndServices+" (" +
                 " id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 " name varchar(255) NOT NULL)";
 
-        String createCategory = "CREATE TABLE IF NOT EXISTS "+Table_Name.Categorys +" ("+
+        String createCategory = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.Categorys +" ("+
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"+
                 "name varchar(255) NOT NULL,"+
                 "parent INTEGER)";
-        String createBill = "CREATE TABLE IF NOT EXISTS "+Table_Name.Bills +" ("+
+        String createBill = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.Bills +" ("+
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"+
                 "id_place INTEGER NOT NULL , "+
                 "id_GoodsOrServices INTEGER NOT NULL , "+
@@ -86,7 +86,7 @@ public class CreateDatabaseIfNotExist {
                 "id_sub_category INTEGER NOT NULL , "+
                 "transaction_date INTEGER NOT NULL)";
 
-        String createLocalVariable = "CREATE TABLE IF NOT EXISTS "+ Table_Name.LocalVariable +" ( " +
+        String createLocalVariable = "CREATE TABLE IF NOT EXISTS "+ Enum_TableName.LocalVariable +" ( " +
                 "local_variable INTEGER)";
 
 
@@ -107,15 +107,15 @@ public class CreateDatabaseIfNotExist {
         return true;
     }
 
-    public static void fillTabelList(){
-        for (Table_Name tb : Table_Name.values()) {
+    private static void fillTabelList(){
+        for (Enum_TableName tb : Enum_TableName.values()) {
             try {
-                PreparedStatement select = connection.prepareStatement("select id from "+ Table_Name.TableList +" where name = ?");
+                PreparedStatement select = connection.prepareStatement("select id from "+ Enum_TableName.TableList +" where name = ?");
                 select.setString(1,tb.toString());
                 ResultSet result = select.executeQuery();
                 if(!result.next()){
                     PreparedStatement insert = connection.prepareStatement(
-                            "INSERT INTO "+ Table_Name.TableList+"(name) VALUES (?) ");
+                            "INSERT INTO "+ Enum_TableName.TableList+"(name) VALUES (?) ");
                     insert.setString(1,tb.toString());
                     insert.execute();
                 }
@@ -126,7 +126,7 @@ public class CreateDatabaseIfNotExist {
         }
     }
 
-    private static void createTrigerAfterInsert(Triger_Name trigerName, Table_Name tableName) throws SQLException {
+    private static void createTrigerAfterInsert(Enum_TrigerName trigerName, Enum_TableName tableName) throws SQLException {
 
         PreparedStatement triger = connection.prepareStatement(
                 "Create TRIGGER IF NOT EXISTS "+trigerName+" after insert on "+ tableName +" "+
@@ -145,7 +145,7 @@ public class CreateDatabaseIfNotExist {
         triger.execute();
     }
 
-    private static void createTrigerAfterUpdate(Triger_Name trigerName, Table_Name tableName) throws SQLException {
+    private static void createTrigerAfterUpdate(Enum_TrigerName trigerName, Enum_TableName tableName) throws SQLException {
 
         PreparedStatement triger = connection.prepareStatement(
                 "Create TRIGGER IF NOT EXISTS "+trigerName+" after update on "+ tableName +" "+
