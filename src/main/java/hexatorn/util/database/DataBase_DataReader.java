@@ -83,7 +83,15 @@ public class DataBase_DataReader {
     static private Date textToDate(int yer,int month, int day ){
         Date outDate;
         Calendar calendar = Calendar.getInstance();
-        calendar.set(yer,month,day);
+        /*
+        * EN
+        * SQLite counts months from 1 to 12. 1 is January
+        * Class Date created by Calendar class counts months from 0 to 11. 0 is January
+        * PL
+        * Sqlite liczy miesiące od 1-12. 1 to styczeń itd.
+        * klasa Date stworzona za pomocą klasy Calendar liczy miesiące od 0-11. 0 to styczeń.
+        */
+        calendar.set(yer,month-1,day);
         outDate = calendar.getTime();
         return outDate;
     }

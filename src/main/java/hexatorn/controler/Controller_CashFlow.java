@@ -12,12 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
+
 import java.net.MalformedURLException;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import static hexatorn.util.database.DataBase_DataReader.readBillsFromOneMonthFromDataBase;
@@ -36,9 +40,11 @@ public class Controller_CashFlow {
     @FXML
     TableColumn<Bill, String> tbColPlace;
     @FXML
+    TableColumn<Bill, String> tbColGods;
+    @FXML
     TableColumn<Bill, Double> tbColAmount;
     @FXML
-    TableColumn<Bill, LocalDate> tbColData;
+    TableColumn<Bill, Date> tbColData;
     @FXML
     TableColumn<Bill, String> tbColCategory;
     @FXML
@@ -86,14 +92,16 @@ public class Controller_CashFlow {
         reloadListOfBills();
 
         tbColPlace.setCellValueFactory(new PropertyValueFactory<Bill,String>("place"));
+        tbColGods.setCellValueFactory(new PropertyValueFactory<Bill,String>("goodsOrServices"));
         tbColAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("amount"));
-        tbColData.setCellValueFactory(new PropertyValueFactory<Bill,LocalDate>("date"));
+
+        tbColData.setCellValueFactory(new PropertyValueFactory<Bill, Date>("date"));
+        tbColData.setCellFactory(new Controller_CashFlow.ColumnFormatter<>("dd-MM-yyyy"));
+
         tbColCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("category"));
         tbColSubCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("subcategory"));
         tbColDescription.setCellValueFactory(new PropertyValueFactory<Bill,String>("description"));
         tbColPerson.setCellValueFactory( cellData -> cellData.getValue().getPerson().toStringPropherty());
-
-        //tbBills.setItems(listOfBills);
 
         SetPercentColumnWidth();
         SetColumnResize();
@@ -109,6 +117,41 @@ public class Controller_CashFlow {
         btnPreviousMonth.setOnAction(event -> handlePreviousMonth());
         btnNextYer.setOnAction(event -> handleNextYer());
         btnPreviousYer.setOnAction(event -> handlePreviousYer());
+    }
+
+    /*
+    * EN
+    * This Class was injection to object Table Column to order formatting data in cells
+    * PL
+    * Klasa wstrzykiwana w obiekt TableColumn w celu formatowania zawartości komórek
+    */
+    private class ColumnFormatter<S, T> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+
+        SimpleDateFormat simpleDateFormat;
+
+        ColumnFormatter(String formatPatern) {
+            super();
+            simpleDateFormat = new SimpleDateFormat(formatPatern);
+        }
+
+        @Override
+        public TableCell<S, T> call(TableColumn<S, T> arg0) {
+            return new TableCell<S, T>() {
+                @Override
+                protected void updateItem(T item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+
+                        Date localValueDate = (Date) item;
+                        String val = simpleDateFormat.format(localValueDate);
+
+                        setGraphic(new Label(val));
+                    }
+                }
+            };
+        }
     }
 
     private void reloadListOfBills() {
@@ -184,7 +227,7 @@ public class Controller_CashFlow {
 
         for (Double d : doubleArrayList) {
 
-            double percent = 0;
+            double percent;
             percent = d/sumPrefWidth;
             percentColumnWidthArrayList.add(percent);
         }
@@ -207,7 +250,7 @@ public class Controller_CashFlow {
                 TableColumn column;
                 TextField textField;
                 if(oldValue.doubleValue() != 0){
-                    double newWidth = 0;
+                    double newWidth;
                     newWidth = newValue.doubleValue() * percentColumnWidthArrayList.get(i);
 
                     column = (TableColumn) tbBills.getColumns().get(i);
