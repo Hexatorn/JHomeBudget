@@ -4,6 +4,7 @@ package hexatorn.data;
 
 import javafx.beans.property.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -15,7 +16,6 @@ public class Bill {
     private  StringProperty category;
     private  StringProperty subcategory;
     private  ObjectProperty<Date> date;
-    //private  ObjectProperty<LocalDate> date;
     private  StringProperty description;
     private  ObjectProperty<Person> person;
 
@@ -37,7 +37,6 @@ public class Bill {
         this.category = new SimpleStringProperty(category);
         this.subcategory = new SimpleStringProperty(subcategory);
         this.date = new SimpleObjectProperty<Date>(date);
-        //this.date = new SimpleObjectProperty<LocalDate>(date);
         this.description = new SimpleStringProperty("");
         this.person = new SimpleObjectProperty<Person>(new Person());
     }
@@ -85,6 +84,13 @@ public class Bill {
 
     public Date getDate() {
         return date.get();
+    }
+    public String getStringDate(){
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        String date = format.format(this.date.get());
+        System.out.println(date);
+        return date;
     }
     public ObjectProperty<Date> dateProperty() {
         return date;

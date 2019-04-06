@@ -24,7 +24,6 @@ public class App extends Application
     private Stage primaryStage;
     private BorderPane rootLayout;
     private BorderPane menuPanel;
-    private ObservableList<Bill> listOfBills = FXCollections.observableArrayList();
 
     /*
     * EN
@@ -39,12 +38,6 @@ public class App extends Application
     public BorderPane getRootLayout() {
         return rootLayout;
     }
-
-    public ObservableList<Bill> getListOfBill() {
-        return listOfBills;
-    }
-
-
 
     public App() {
 

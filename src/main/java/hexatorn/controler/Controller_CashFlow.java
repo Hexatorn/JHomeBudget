@@ -2,9 +2,7 @@ package hexatorn.controler;
 
 import hexatorn.App;
 import hexatorn.data.Bill;
-import hexatorn.data.Person;
 import hexatorn.util.Resources;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,15 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
-
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static hexatorn.util.database.DataBase_DataReader.readBillsFromOneMonthFromDataBase;
 
 
 public class Controller_CashFlow {
@@ -73,17 +72,22 @@ public class Controller_CashFlow {
     Button btnNextYer;
     @FXML
     Button btnPreviousYer;
-
     @FXML
     Label lblMonth;
     @FXML
     Label lblYer;
 
-
     private boolean finishInitialize = false;
 
     @FXML
     private void initialize(){
+        lblMonth.setText(getPLMonthString());
+        lblYer.setText(String.valueOf(getYer()));
+
+        String month = String.format("%02d", date.getMonth().getValue());
+        String yer = ""+ date.getYear();
+        listOfBills = readBillsFromOneMonthFromDataBase(yer,month);
+
         tbColPlace.setCellValueFactory(new PropertyValueFactory<Bill,String>("place"));
         tbColAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("amount"));
         tbColData.setCellValueFactory(new PropertyValueFactory<Bill,LocalDate>("date"));
@@ -92,6 +96,7 @@ public class Controller_CashFlow {
         tbColDescription.setCellValueFactory(new PropertyValueFactory<Bill,String>("description"));
         tbColPerson.setCellValueFactory( cellData -> cellData.getValue().getPerson().toStringPropherty());
 
+        tbBills.setItems(listOfBills);
 
         SetPercentColumnWidth();
         SetColumnResize();
@@ -104,8 +109,7 @@ public class Controller_CashFlow {
         }
 
 
-        lblMonth.setText(getPLMonthString());
-        lblYer.setText(String.valueOf(getYer()));
+
         btnNextMonth.setOnAction(event -> handleNextMonth());
         btnPreviousMonth.setOnAction(event -> handlePreviousMonth());
         btnNextYer.setOnAction(event -> handleNextYer());
@@ -144,11 +148,21 @@ public class Controller_CashFlow {
         return date.getYear();
     }
 
+    /*
+    * EN
+    * Corecrt Column Width during rezisable aplication Window
+    * Prabably can be do beter
+    * PL
+    * Poprawia szerokość kolumn podczas zmiany rozmiaru okna.
+    */
+    /*TODO FIX
+    * Nie działa z zmianą rozmiaru kolumn
+    */
     private void SetPercentColumnWidth(){
         double sumPrefWidth = 0;
         /* Start Create Percent Table
          * EN
-         * Create Percent Table. 0.1 at first index means first column have 10% width of table.
+         * Create Percent Table. For example 0.1 at first index means first column have 10% width of table.
          * PL
          * Utworzenie tabeli z procentową wielkością kolumn. 0.1 na pierwszej pozycji oznacza że pierwsza kolumna ma 10% szerokości tabeli.
          * */
@@ -170,9 +184,13 @@ public class Controller_CashFlow {
         }
     }
 
+    /*
+    * EN
+    * Together with the resize of the columns, resize of the text fields under the table
+    * PL
+    * Wraz ze mnaną wielkości kolumn zmienia się wielkość poł tekstowych pod tabelą
+    */
     private void SetColumnResize() {
-
-        /* End Create Percent Table */
         /* EN
          * Resize Column and Text Field
          * PL
@@ -209,6 +227,5 @@ public class Controller_CashFlow {
 
     public void setApp(App app) {
         this.app = app;
-        tbBills.setItems(app.getListOfBill());
     }
 }

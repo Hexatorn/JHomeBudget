@@ -75,6 +75,8 @@ public class DataBase_DataWriter {
         //todo sprawdzić czy kat ID jest rootem
         subCatID = addCategory(bill.getSubcategory(),catID);
 
+        System.out.println(bill.getStringDate());
+
         try {
             PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO "+ Enum_TableName.Bills +" (id_place,id_GoodsOrServices,amount,id_category,id_sub_category,transaction_date) VALUES (?,?,?,?,?,?)");
@@ -90,7 +92,7 @@ public class DataBase_DataWriter {
             insert.setInt(5,subCatID);
             //transaction_data
             //System.out.println(bill.getDate());
-            insert.setString(6,bill.getDate().toString());
+            insert.setString(6,bill.getStringDate());
             //create_data
 
             insert.execute();
