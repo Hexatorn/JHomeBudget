@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import java.net.MalformedURLException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -84,9 +83,7 @@ public class Controller_CashFlow {
         lblMonth.setText(getPLMonthString());
         lblYer.setText(String.valueOf(getYer()));
 
-        String month = String.format("%02d", date.getMonth().getValue());
-        String yer = ""+ date.getYear();
-        listOfBills = readBillsFromOneMonthFromDataBase(yer,month);
+        reloadListOfBills();
 
         tbColPlace.setCellValueFactory(new PropertyValueFactory<Bill,String>("place"));
         tbColAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("amount"));
@@ -96,7 +93,7 @@ public class Controller_CashFlow {
         tbColDescription.setCellValueFactory(new PropertyValueFactory<Bill,String>("description"));
         tbColPerson.setCellValueFactory( cellData -> cellData.getValue().getPerson().toStringPropherty());
 
-        tbBills.setItems(listOfBills);
+        //tbBills.setItems(listOfBills);
 
         SetPercentColumnWidth();
         SetColumnResize();
@@ -108,34 +105,43 @@ public class Controller_CashFlow {
             e.printStackTrace();
         }
 
-
-
         btnNextMonth.setOnAction(event -> handleNextMonth());
         btnPreviousMonth.setOnAction(event -> handlePreviousMonth());
         btnNextYer.setOnAction(event -> handleNextYer());
         btnPreviousYer.setOnAction(event -> handlePreviousYer());
     }
 
+    private void reloadListOfBills() {
+        String month = String.format("%02d", date.getMonth().getValue());
+        String yer = ""+ date.getYear();
+        listOfBills = readBillsFromOneMonthFromDataBase(yer,month);
+        tbBills.setItems(listOfBills);
+    }
+
     private void handlePreviousYer(){
         date = date.minusYears(1);
         lblYer.setText(String.valueOf(getYer()));
+        reloadListOfBills();
     }
 
     private void handleNextYer(){
         date = date.plusYears(1);
         lblYer.setText(String.valueOf(getYer()));
+        reloadListOfBills();
     }
 
     private void handlePreviousMonth() {
         date = date.minusMonths(1);
         lblMonth.setText(getPLMonthString());
         lblYer.setText(String.valueOf(getYer()));
+        reloadListOfBills();
     }
 
     private void handleNextMonth() {
         date = date.plusMonths(1);
         lblMonth.setText(getPLMonthString());
         lblYer.setText(String.valueOf(getYer()));
+        reloadListOfBills();
     }
 
     private String getPLMonthString(){
