@@ -1,8 +1,9 @@
 package hexatorn.util.database;
 
 import hexatorn.data.Bill;
+import hexatorn.util.Progress;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ProgressBar;
+
 import java.sql.*;
 
 
@@ -17,7 +18,7 @@ public class DataBase_DataWriter {
     * PL
     * Główna metoda realizująca zapisa paragonów/płatności/operacji finansowych do bazy danych.
     */
-    static public void writeToBase(ObservableList<Bill> listOfBills, ProgressBar progressBar, double step){
+    static public void writeToBase(ObservableList<Bill> listOfBills, Progress progress){
 
         /*
         * EN
@@ -36,8 +37,7 @@ public class DataBase_DataWriter {
 
         for (Bill bill:listOfBills) {
             addBill(bill);
-            progressBar.setProgress(progressBar.getProgress()+step);
-            progressBar.setProgress(progressBar.getProgress()+step);
+            progress.incrementProgresByOnePoint();
         }
         /*
         * EN
@@ -75,8 +75,6 @@ public class DataBase_DataWriter {
         //todo sprawdzić czy kat ID jest rootem
         subCatID = addCategory(bill.getSubcategory(),catID);
 
-        System.out.println(bill.getStringDate());
-
         try {
             PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO "+ Enum_TableName.Bills +" (id_place,id_GoodsOrServices,amount,id_category,id_sub_category,transaction_date) VALUES (?,?,?,?,?,?)");
@@ -91,9 +89,7 @@ public class DataBase_DataWriter {
             //id_sub_category
             insert.setInt(5,subCatID);
             //transaction_data
-            //System.out.println(bill.getDate());
             insert.setString(6,bill.getStringDate());
-            //create_data
 
             insert.execute();
 

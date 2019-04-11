@@ -1,14 +1,18 @@
 package hexatorn.controler;
 
 import hexatorn.data.Bill;
-import hexatorn.util.database.DataBase_DataWriter;
+import hexatorn.util.Progress;
 import hexatorn.util.XLSXReader;
 import hexatorn.util.WarningAlert;
+import hexatorn.util.database.DataBase_DataWriter;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.FilenameUtils;
 
@@ -22,17 +26,15 @@ public class ControllerOption_ImportFromExcel {
     @FXML
     ProgressBar progres_bar;
     @FXML
-    Button btn_test_minus;
-    @FXML
-    Button btn_test_plus;
-    @FXML
     TextField tf_chosen_file;
     @FXML
     Button btn_Import;
-
+    @FXML
+    Label lbl_progres;
+    @FXML
+    Label lbl_info;
 
     private File file = null;
-
 
     /*
     * EN
@@ -52,7 +54,6 @@ public class ControllerOption_ImportFromExcel {
         btn_chose_file.setOnAction(event -> handleChoseFile());
         btn_Import.setOnAction(event ->handleImport());
         tf_chosen_file.setOnKeyPressed(event -> handleClickTextFieldChoseFile());
-
     }
 
     /*
@@ -63,7 +64,7 @@ public class ControllerOption_ImportFromExcel {
     */
     private void handleClickTextFieldChoseFile(){
         fileIsChosen = false;
-        progres_bar.setProgress(0);
+        resetGUIProgresComponent();
     }
 
     /*
@@ -73,7 +74,16 @@ public class ControllerOption_ImportFromExcel {
     * Rozpączecie importu danych z pliku excel do bazy danych w nowym wątku
     */
     private void handleImport(){
-        Thread importThread = new Thread(() -> {
+
+        Progress progress = new Progress();
+        lbl_progres.textProperty().bind(progress.getProgresTask().messageProperty());
+        progres_bar.progressProperty().bind(progress.getProgresTask().progressProperty());
+
+        btn_Import.setDisable(true);
+        btn_chose_file.setDisable(true);
+        tf_chosen_file.setDisable(true);
+
+        Thread ImportThread = new Thread(()->{
             ObservableList<Bill> listOfBils;
             /*
              * EN
@@ -83,29 +93,40 @@ public class ControllerOption_ImportFromExcel {
              * jeżeli flaga = false
              * walidacja i utwórzenie pliku na podstawie wartości z pola tekstowego
              */
+
             if(!fileIsChosen){
                 String filename = tf_chosen_file.getText();
                 String[] extensions = {"xlsx", "xls"};
                 if(!FilenameUtils.isExtension(filename,extensions)){
                     WarningAlert.show("Niepoprawny plik","Niepoprawny plik","Proszę wskazać poprawny plik excel");
-                    return;
+                    return ;
                 }
                 file = new File(tf_chosen_file.getText());
             }
             if (!file.exists()){
                 WarningAlert.show("Niepoprawny plik","Plik nie istnieje","Proszę wskazać istniejący plik excel");
-                return;
+                return ;
             }
-            XLSXReader xlsxReader = new XLSXReader();
 
-            xlsxReader.open(file);
-            int count = xlsxReader.getRowsCount();
-            double progressStep = (double) 1/(2*count);
-            listOfBils = xlsxReader.readXLSX(progres_bar,progressStep);
-            DataBase_DataWriter.writeToBase(listOfBils,progres_bar,progressStep);
+            XLSXReader xlsxReader = new XLSXReader(file,progress);
+            progress.setMaxProgress(xlsxReader.getRowsCount()*2);
+
+            progress.run();
+
+            listOfBils=xlsxReader.readXLSX();
+            DataBase_DataWriter.writeToBase(listOfBils,progress);
+
+            progress.stop();
+            lbl_progres.setTextFill(Color.GREEN);
+            btn_Import.setDisable(false);
+            btn_chose_file.setDisable(false);
+            tf_chosen_file.setDisable(false);
         });
-        importThread.start();
+        ImportThread.setName("Import Thred");
+        ImportThread.setDaemon(true);
+        ImportThread.start();
     }
+
 
     /*
     * EN
@@ -114,7 +135,7 @@ public class ControllerOption_ImportFromExcel {
     * Wskazanie pliku do importu
     */
     private void handleChoseFile(){
-        progres_bar.setProgress(0);
+        resetGUIProgresComponent();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Zaczytywanie danych z pliku excel");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel File","*.xlsx","*.xls");
@@ -126,5 +147,13 @@ public class ControllerOption_ImportFromExcel {
         }
 
         fileIsChosen = true;
+    }
+
+    private void resetGUIProgresComponent(){
+        progres_bar.progressProperty().unbind();
+        progres_bar.setProgress(0);
+        lbl_progres.textProperty().unbind();
+        lbl_progres.setText("Wybierz plik i rozpocznij import");
+        lbl_progres.setTextFill(Color.BLACK);
     }
 }

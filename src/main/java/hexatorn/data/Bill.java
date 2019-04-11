@@ -89,7 +89,6 @@ public class Bill {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         String date = format.format(this.date.get());
-        System.out.println(date);
         return date;
     }
     public ObjectProperty<Date> dateProperty() {
