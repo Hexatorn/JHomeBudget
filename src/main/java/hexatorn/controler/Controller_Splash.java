@@ -9,12 +9,12 @@ import java.net.MalformedURLException;
 
 public class Controller_Splash {
     @FXML
-    ImageView imSplash;
+    ImageView imageViewSplash;
 
     @FXML
     private void initialize() throws MalformedURLException {
         Image image = new Image(Resources.getResources("resources/Icon/LogoJHomeBudget.png").toString());
-        imSplash.setImage(image);
+        imageViewSplash.setImage(image);
     }
 
 }

@@ -5,7 +5,6 @@ import hexatorn.util.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -16,15 +15,11 @@ import static hexatorn.util.Resources.getResources;
 public class ControllerMenu_SubMenuOption {
 
     @FXML
-    ImageView imLogo;
+    ImageView imageViewLogo;
     @FXML
-    Label lbl_import;
+    Button buttonImport;
     @FXML
-    Label lbl_export;
-    @FXML
-    Button btn_import;
-    @FXML
-    Button btn_export;
+    Button buttonExport;
 
     /*
      * EN
@@ -41,9 +36,9 @@ public class ControllerMenu_SubMenuOption {
 
     @FXML
     private void initialize(){
-        imLogo.setImage(subImege());
-        btn_import.setOnAction(event -> btnImportHandle());
-        btn_export.setOnAction(event -> btnExportHandle());
+        imageViewLogo.setImage(subImege());
+        buttonImport.setOnAction(event -> btnImportHandle());
+        buttonExport.setOnAction(event -> btnExportHandle());
     }
 
     /*

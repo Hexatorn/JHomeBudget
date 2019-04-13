@@ -13,21 +13,21 @@ import java.net.MalformedURLException;
 
 public class ControllerMenu_MainMenu {
     @FXML
-    ImageView imLogo;
+    ImageView imageViewLogo;
     @FXML
-    ImageView imCashFlow;
+    ImageView imageViewCashFlow;
     @FXML
-    ImageView imInwestycje;
+    ImageView imageViewInwestycje;
     @FXML
-    ImageView imAnalityka;
+    ImageView imageViewAnalityka;
     @FXML
-    ImageView imOpcje;
+    ImageView imageViewOpcje;
     @FXML
-    ImageView imExit;
+    ImageView imageViewExit;
     @FXML
-    Button btnCashFlow;
+    Button buttonCashFlow;
     @FXML
-    Button btnOpcje;
+    Button buttonOpcje;
 
     /*
     * EN
@@ -50,11 +50,11 @@ public class ControllerMenu_MainMenu {
 
 
         Image image = new Image(Resources.getResources("resources/Icon/LogoJHomeBudget.png").toString());
-        imLogo.setImage(image);
+        imageViewLogo.setImage(image);
         setIconI();
 
-        btnCashFlow.setOnAction(event -> btnCashFlowClickOnActionHandler());
-        btnOpcje.setOnAction(event -> btnOpcjeOnActionHandler());
+        buttonCashFlow.setOnAction(event -> btnCashFlowClickOnActionHandler());
+        buttonOpcje.setOnAction(event -> btnOpcjeOnActionHandler());
 
     }
 
@@ -91,36 +91,36 @@ public class ControllerMenu_MainMenu {
 
     private void setIconII() throws MalformedURLException {
         Image image = new Image(Resources.getResources("resources/Icon/IcoCashFlow2.png").toString());
-        imCashFlow.setImage(image);
+        imageViewCashFlow.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoMoneyBag2.png").toString());
-        imInwestycje.setImage(image);
+        imageViewInwestycje.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoChart2.png").toString());
-        imAnalityka.setImage(image);
+        imageViewAnalityka.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoSettings2.png").toString());
-        imOpcje.setImage(image);
+        imageViewOpcje.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoLogout2.png").toString());
-        imExit.setImage(image);
+        imageViewExit.setImage(image);
     }
 
     private void setIconI() throws MalformedURLException {
         Image image = new Image(Resources.getResources("resources/Icon/IcoCashFlow.png").toString());
-        imCashFlow.setImage(image);
+        imageViewCashFlow.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoMoneyBag.png").toString());
-        imInwestycje.setImage(image);
+        imageViewInwestycje.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoChart.png").toString());
-        imAnalityka.setImage(image);
+        imageViewAnalityka.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoSettings.png").toString());
-        imOpcje.setImage(image);
+        imageViewOpcje.setImage(image);
 
         image = new Image(Resources.getResources("resources/Icon/IcoLogout.png").toString());
-        imExit.setImage(image);
+        imageViewExit.setImage(image);
     }
 
 

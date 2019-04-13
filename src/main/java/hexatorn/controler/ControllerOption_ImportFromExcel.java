@@ -19,17 +19,17 @@ import java.io.File;
 public class ControllerOption_ImportFromExcel {
 
     @FXML
-    Button btn_chose_file;
+    Button buttonChoseFile;
     @FXML
-    ProgressBar progres_bar;
+    ProgressBar progressBar;
     @FXML
-    TextField tf_chosen_file;
+    TextField textFieldChosenFile;
     @FXML
-    Button btn_Import;
+    Button buttonImport;
     @FXML
-    Label lbl_progres;
+    Label labelProgres;
     @FXML
-    Label lbl_info;
+    Label labelInfo;
 
     private File file = null;
 
@@ -48,9 +48,9 @@ public class ControllerOption_ImportFromExcel {
     @FXML
     private void initialize(){
 
-        btn_chose_file.setOnAction(event -> handleChoseFile());
-        btn_Import.setOnAction(event ->handleImport());
-        tf_chosen_file.setOnKeyPressed(event -> handleClickTextFieldChoseFile());
+        buttonChoseFile.setOnAction(event -> handleChoseFile());
+        buttonImport.setOnAction(event ->handleImport());
+        textFieldChosenFile.setOnKeyPressed(event -> handleClickTextFieldChoseFile());
     }
 
     /*
@@ -73,12 +73,12 @@ public class ControllerOption_ImportFromExcel {
     private void handleImport(){
 
         Progress progress = new Progress();
-        lbl_progres.textProperty().bind(progress.getProgresTask().messageProperty());
-        progres_bar.progressProperty().bind(progress.getProgresTask().progressProperty());
+        labelProgres.textProperty().bind(progress.getProgresTask().messageProperty());
+        progressBar.progressProperty().bind(progress.getProgresTask().progressProperty());
 
-        btn_Import.setDisable(true);
-        btn_chose_file.setDisable(true);
-        tf_chosen_file.setDisable(true);
+        buttonImport.setDisable(true);
+        buttonChoseFile.setDisable(true);
+        textFieldChosenFile.setDisable(true);
 
         Thread ImportThread = new Thread(()->{
             ObservableList<Bill> listOfBils;
@@ -92,13 +92,13 @@ public class ControllerOption_ImportFromExcel {
              */
 
             if(!fileIsChosen){
-                String filename = tf_chosen_file.getText();
+                String filename = textFieldChosenFile.getText();
                 String[] extensions = {"xlsx", "xls"};
                 if(!FilenameUtils.isExtension(filename,extensions)){
                     WarningAlert.show("Niepoprawny plik","Niepoprawny plik","Proszę wskazać poprawny plik excel");
                     return ;
                 }
-                file = new File(tf_chosen_file.getText());
+                file = new File(textFieldChosenFile.getText());
             }
             if (!file.exists()){
                 WarningAlert.show("Niepoprawny plik","Plik nie istnieje","Proszę wskazać istniejący plik excel");
@@ -114,10 +114,10 @@ public class ControllerOption_ImportFromExcel {
             DataBase_DataWriter.writeToBase(listOfBils,progress);
 
             progress.stop();
-            lbl_progres.setTextFill(Color.GREEN);
-            btn_Import.setDisable(false);
-            btn_chose_file.setDisable(false);
-            tf_chosen_file.setDisable(false);
+            labelProgres.setTextFill(Color.GREEN);
+            buttonImport.setDisable(false);
+            buttonChoseFile.setDisable(false);
+            textFieldChosenFile.setDisable(false);
         });
         ImportThread.setName("Import Thred");
         ImportThread.setDaemon(true);
@@ -140,17 +140,17 @@ public class ControllerOption_ImportFromExcel {
 
         file = fileChooser.showOpenDialog(null);
         if (file != null){
-            tf_chosen_file.setText(file.getAbsolutePath());
+            textFieldChosenFile.setText(file.getAbsolutePath());
         }
 
         fileIsChosen = true;
     }
 
     private void resetGUIProgresComponent(){
-        progres_bar.progressProperty().unbind();
-        progres_bar.setProgress(0);
-        lbl_progres.textProperty().unbind();
-        lbl_progres.setText("Wybierz plik i rozpocznij import");
-        lbl_progres.setTextFill(Color.BLACK);
+        progressBar.progressProperty().unbind();
+        progressBar.setProgress(0);
+        labelProgres.textProperty().unbind();
+        labelProgres.setText("Wybierz plik i rozpocznij import");
+        labelProgres.setTextFill(Color.BLACK);
     }
 }

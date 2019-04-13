@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefWidth="130.0" styleClass="background" stylesheets="@../SubMenuTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.ControllerMenu_SubMenuOption">
-      <ImageView fx:id="imLogo" fitHeight="217.0" fitWidth="90.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btn_import" mnemonicParsing="false" text="Import z Excela" />
-      <Button fx:id="btn_export" mnemonicParsing="false" text="Export do Exela" />
+      <ImageView fx:id="imageViewLogo" fitHeight="217.0" fitWidth="90.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="buttonImport" mnemonicParsing="false" text="Import z Excela" />
+      <Button fx:id="buttonExport" mnemonicParsing="false" text="Export do Exela" />
 </VBox>

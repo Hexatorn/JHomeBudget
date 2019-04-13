@@ -13,12 +13,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,89 +32,91 @@ public class Controller_CashFlow {
     private LocalDateTime date = LocalDateTime.now();
 
     @FXML
-    TableView tbBills;
+    TableView tableViewBills;
     @FXML
     HBox hBoxWithTextFields;
     @FXML
-    TableColumn<Bill, String> tbColPlace;
+    TableColumn<Bill, String> tableColumnPlace;
     @FXML
-    TableColumn<Bill, String> tbColGods;
+    TableColumn<Bill, String> tableColumnGods;
     @FXML
-    TableColumn<Bill, Double> tbColAmount;
+    TableColumn<Bill, Double> tableColumnAmount;
     @FXML
-    TableColumn<Bill, Date> tbColData;
+    TableColumn<Bill, Date> tableColumnData;
     @FXML
-    TableColumn<Bill, String> tbColCategory;
+    TableColumn<Bill, String> tableColumnCategory;
     @FXML
-    TableColumn<Bill, String> tbColSubCategory;
+    TableColumn<Bill, String> tableColumnSubCategory;
     @FXML
-    TableColumn<Bill, String> tbColDescription;
+    TableColumn<Bill, String> tableColumnDescription;
     @FXML
-    TableColumn<Bill, String> tbColPerson;
+    TableColumn<Bill, String> tableColumnPerson;
     @FXML
-    TextField tfPlace;
+    TextField textFieldPlace;
     @FXML
-    TextField tfAmount;
+    TextField textFieldGoods;
     @FXML
-    TextField tfData;
+    TextField textFieldAmount;
     @FXML
-    TextField tfCategory;
+    TextField textFieldData;
     @FXML
-    TextField tfSubCategory;
+    TextField textFieldCategory;
     @FXML
-    TextField tfDescription;
+    TextField textFieldSubCategory;
     @FXML
-    AnchorPane aCashFlowView;
+    TextField textFieldDescription;
     @FXML
-    ImageView imCalendar;
+    AnchorPane anchorPaneCashFlowView;
     @FXML
-    Button btnNextMonth;
+    ImageView imageViewCalendar;
     @FXML
-    Button btnPreviousMonth;
+    Button buttonNextMonth;
     @FXML
-    Button btnNextYer;
+    Button buttonPreviousMonth;
     @FXML
-    Button btnPreviousYer;
+    Button buttonNextYer;
     @FXML
-    Label lblMonth;
+    Button buttonPreviousYer;
     @FXML
-    Label lblYer;
+    Label labelMonth;
+    @FXML
+    Label labelYer;
 
     private boolean finishInitialize = false;
 
     @FXML
     private void initialize(){
-        lblMonth.setText(getPLMonthString());
-        lblYer.setText(String.valueOf(getYer()));
+        labelMonth.setText(getPLMonthString());
+        labelYer.setText(String.valueOf(getYer()));
 
         reloadListOfBills();
 
-        tbColPlace.setCellValueFactory(new PropertyValueFactory<Bill,String>("place"));
-        tbColGods.setCellValueFactory(new PropertyValueFactory<Bill,String>("goodsOrServices"));
-        tbColAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("amount"));
+        tableColumnPlace.setCellValueFactory(new PropertyValueFactory<Bill,String>("place"));
+        tableColumnGods.setCellValueFactory(new PropertyValueFactory<Bill,String>("goodsOrServices"));
+        tableColumnAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("amount"));
 
-        tbColData.setCellValueFactory(new PropertyValueFactory<Bill, Date>("date"));
-        tbColData.setCellFactory(new Controller_CashFlow.ColumnFormatter<>("dd-MM-yyyy"));
+        tableColumnData.setCellValueFactory(new PropertyValueFactory<Bill, Date>("date"));
+        tableColumnData.setCellFactory(new Controller_CashFlow.ColumnFormatter<>("dd-MM-yyyy"));
 
-        tbColCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("category"));
-        tbColSubCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("subcategory"));
-        tbColDescription.setCellValueFactory(new PropertyValueFactory<Bill,String>("description"));
-        tbColPerson.setCellValueFactory( cellData -> cellData.getValue().getPerson().toStringPropherty());
+        tableColumnCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("category"));
+        tableColumnSubCategory.setCellValueFactory(new PropertyValueFactory<Bill,String>("subcategory"));
+        tableColumnDescription.setCellValueFactory(new PropertyValueFactory<Bill,String>("description"));
+        tableColumnPerson.setCellValueFactory(cellData -> cellData.getValue().getPerson().toStringPropherty());
 
         SetPercentColumnWidth();
         SetColumnResize();
 
         try {
             Image image = new Image(Resources.getResources("resources/Icon/IcoCalendar.png").toString());
-            imCalendar.setImage(image);
+            imageViewCalendar.setImage(image);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        btnNextMonth.setOnAction(event -> handleNextMonth());
-        btnPreviousMonth.setOnAction(event -> handlePreviousMonth());
-        btnNextYer.setOnAction(event -> handleNextYer());
-        btnPreviousYer.setOnAction(event -> handlePreviousYer());
+        buttonNextMonth.setOnAction(event -> handleNextMonth());
+        buttonPreviousMonth.setOnAction(event -> handlePreviousMonth());
+        buttonNextYer.setOnAction(event -> handleNextYer());
+        buttonPreviousYer.setOnAction(event -> handlePreviousYer());
     }
 
     /*
@@ -158,32 +158,32 @@ public class Controller_CashFlow {
         String month = String.format("%02d", date.getMonth().getValue());
         String yer = ""+ date.getYear();
         listOfBills = readBillsFromOneMonthFromDataBase(yer,month);
-        tbBills.setItems(listOfBills);
+        tableViewBills.setItems(listOfBills);
     }
 
     private void handlePreviousYer(){
         date = date.minusYears(1);
-        lblYer.setText(String.valueOf(getYer()));
+        labelYer.setText(String.valueOf(getYer()));
         reloadListOfBills();
     }
 
     private void handleNextYer(){
         date = date.plusYears(1);
-        lblYer.setText(String.valueOf(getYer()));
+        labelYer.setText(String.valueOf(getYer()));
         reloadListOfBills();
     }
 
     private void handlePreviousMonth() {
         date = date.minusMonths(1);
-        lblMonth.setText(getPLMonthString());
-        lblYer.setText(String.valueOf(getYer()));
+        labelMonth.setText(getPLMonthString());
+        labelYer.setText(String.valueOf(getYer()));
         reloadListOfBills();
     }
 
     private void handleNextMonth() {
         date = date.plusMonths(1);
-        lblMonth.setText(getPLMonthString());
-        lblYer.setText(String.valueOf(getYer()));
+        labelMonth.setText(getPLMonthString());
+        labelYer.setText(String.valueOf(getYer()));
         reloadListOfBills();
     }
 
@@ -216,7 +216,7 @@ public class Controller_CashFlow {
          * Utworzenie tabeli z procentową wielkością kolumn. 0.1 na pierwszej pozycji oznacza że pierwsza kolumna ma 10% szerokości tabeli.
          * */
         ArrayList<Double> doubleArrayList = new ArrayList<Double>();
-        for (Object columnOb : tbBills.getColumns() ) {
+        for (Object columnOb : tableViewBills.getColumns() ) {
 
             TableColumn column = (TableColumn) columnOb;
             doubleArrayList.add(( column.getPrefWidth()));
@@ -253,7 +253,7 @@ public class Controller_CashFlow {
                     double newWidth;
                     newWidth = newValue.doubleValue() * percentColumnWidthArrayList.get(i);
 
-                    column = (TableColumn) tbBills.getColumns().get(i);
+                    column = (TableColumn) tableViewBills.getColumns().get(i);
                     column.setPrefWidth(newWidth);
                     textField = (TextField) hBoxWithTextFields.getChildren().get(i);
                     textField.setPrefWidth(column.getWidth());
@@ -262,14 +262,14 @@ public class Controller_CashFlow {
             }
 
             if(finishInitialize){
-                tbColDescription.setPrefWidth(
-                        tbColDescription.getPrefWidth() - (tbBills.getWidth() -  sumColumnWidth) -3
+                tableColumnDescription.setPrefWidth(
+                        tableColumnDescription.getPrefWidth() - (tableViewBills.getWidth() -  sumColumnWidth) -3
                 );
             }
             finishInitialize = true;
 
         };
-        tbBills.widthProperty().addListener(changeSizeListener);
+        tableViewBills.widthProperty().addListener(changeSizeListener);
         /* End Resize Column and Text Field*/
 
     }

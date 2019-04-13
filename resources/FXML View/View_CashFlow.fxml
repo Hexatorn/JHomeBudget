@@ -10,42 +10,42 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="aCashFlowView" minWidth="1.0" prefWidth="798.0" styleClass="backgroundII" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.Controller_CashFlow">
+<AnchorPane fx:id="anchorPaneCashFlowView" minWidth="1.0" prefWidth="798.0" styleClass="backgroundII" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.Controller_CashFlow">
       <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" stylesheets="@../CashFlowButton.css" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-            <ImageView fx:id="imCalendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnPreviousMonth" mnemonicParsing="false" text="&lt;&lt;" />
-            <Label fx:id="lblMonth" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" minWidth="-Infinity" prefWidth="85.0" text="Month" textAlignment="CENTER">
+            <ImageView fx:id="imageViewCalendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="buttonPreviousMonth" mnemonicParsing="false" text="&lt;&lt;" />
+            <Label fx:id="labelMonth" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" minWidth="-Infinity" prefWidth="85.0" text="Month" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>
-            <Button fx:id="btnNextMonth" mnemonicParsing="false" text="&gt;&gt;" />
-            <Button fx:id="btnPreviousYer" mnemonicParsing="false" text="&lt;&lt;" />
-            <Label fx:id="lblYer" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="40.0" text="Yer" textAlignment="CENTER">
+            <Button fx:id="buttonNextMonth" mnemonicParsing="false" text="&gt;&gt;" />
+            <Button fx:id="buttonPreviousYer" mnemonicParsing="false" text="&lt;&lt;" />
+            <Label fx:id="labelYer" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="40.0" text="Yer" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font></Label>
-            <Button fx:id="btnNextYer" mnemonicParsing="false" text="&gt;&gt;" />
+            <Button fx:id="buttonNextYer" mnemonicParsing="false" text="&gt;&gt;" />
       </HBox>
-      <TableView fx:id="tbBills" layoutX="14.0" layoutY="14.0" minWidth="300.0" prefHeight="311.0" prefWidth="650.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0">
+      <TableView fx:id="tableViewBills" layoutX="14.0" layoutY="14.0" minWidth="300.0" prefHeight="311.0" prefWidth="650.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0">
         <columns>
-          <TableColumn fx:id="tbColPlace" maxWidth="1000.0" minWidth="12.0" prefWidth="120.0" text="Miejsce Zakupów" />
-         <TableColumn fx:id="tbColGods" maxWidth="1000.0" minWidth="12.0" prefWidth="120.0" text="Produkt" />
-          <TableColumn fx:id="tbColAmount" maxWidth="1000.0" minWidth="5.0" prefWidth="50.0" text="Kwota" />
-            <TableColumn fx:id="tbColData" maxWidth="1000.0" minWidth="8.0" text="Data" />
-            <TableColumn fx:id="tbColCategory" maxWidth="1000.0" prefWidth="100.0" text="Kategoria" />
-            <TableColumn fx:id="tbColSubCategory" maxWidth="1000.0" prefWidth="100.0" text="Podkategoria" />
-            <TableColumn fx:id="tbColDescription" maxWidth="1000.0" prefWidth="100.0" text="Opis" />
-            <TableColumn fx:id="tbColPerson" prefWidth="100.0" text="Osoba" />
+          <TableColumn fx:id="tableColumnPlace" maxWidth="1000.0" minWidth="12.0" prefWidth="120.0" text="Miejsce Zakupów" />
+         <TableColumn fx:id="tableColumnGods" maxWidth="1000.0" minWidth="12.0" prefWidth="120.0" text="Produkt" />
+          <TableColumn fx:id="tableColumnAmount" maxWidth="1000.0" minWidth="5.0" prefWidth="50.0" text="Kwota" />
+            <TableColumn fx:id="tableColumnData" maxWidth="1000.0" minWidth="8.0" text="Data" />
+            <TableColumn fx:id="tableColumnCategory" maxWidth="1000.0" prefWidth="100.0" text="Kategoria" />
+            <TableColumn fx:id="tableColumnSubCategory" maxWidth="1000.0" prefWidth="100.0" text="Podkategoria" />
+            <TableColumn fx:id="tableColumnDescription" maxWidth="1000.0" prefWidth="100.0" text="Opis" />
+            <TableColumn fx:id="tableColumnPerson" prefWidth="100.0" text="Osoba" />
         </columns>
       </TableView>
       <HBox fx:id="hBoxWithTextFields" prefHeight="25.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
-            <TextField fx:id="tfPlace" maxWidth="1000.0" minWidth="12.0" prefHeight="25.0" prefWidth="120.0" />
-            <TextField fx:id="tfGoods" maxWidth="1000.0" minWidth="12.0" prefHeight="25.0" prefWidth="120.0" />
-            <TextField fx:id="tfAmount" maxWidth="1000.0" minWidth="5.0" prefHeight="25.0" prefWidth="50.0" />
-            <TextField fx:id="tfData" maxWidth="1000.0" minWidth="8.0" prefHeight="25.0" prefWidth="80.0" />
-            <TextField fx:id="tfCategory" minWidth="1.0" prefHeight="25.0" prefWidth="100.0" />
-            <TextField fx:id="tfSubCategory" prefHeight="25.0" prefWidth="100.0" />
-            <TextField fx:id="tfDescription" prefHeight="25.0" prefWidth="100.0" />
+            <TextField fx:id="textFieldPlace" maxWidth="1000.0" minWidth="12.0" prefHeight="25.0" prefWidth="120.0" />
+            <TextField fx:id="textFieldGoods" maxWidth="1000.0" minWidth="12.0" prefHeight="25.0" prefWidth="120.0" />
+            <TextField fx:id="textFieldAmount" maxWidth="1000.0" minWidth="5.0" prefHeight="25.0" prefWidth="50.0" />
+            <TextField fx:id="textFieldData" maxWidth="1000.0" minWidth="8.0" prefHeight="25.0" prefWidth="80.0" />
+            <TextField fx:id="textFieldCategory" minWidth="1.0" prefHeight="25.0" prefWidth="100.0" />
+            <TextField fx:id="textFieldSubCategory" prefHeight="25.0" prefWidth="100.0" />
+            <TextField fx:id="textFieldDescription" prefHeight="25.0" prefWidth="100.0" />
             <TextField prefWidth="100.0" />
       </HBox>
       <Button layoutX="15.0" layoutY="358.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="50.0" text="Dodaj" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />

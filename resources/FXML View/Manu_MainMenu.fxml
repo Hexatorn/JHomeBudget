@@ -7,26 +7,26 @@
 
 <VBox maxHeight="999999.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="300.0" prefHeight="700.0" prefWidth="210.0" styleClass="background" stylesheets="@../MenuTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hexatorn.controler.ControllerMenu_MainMenu">
 
-      <ImageView fx:id="imLogo" fitHeight="217.0" fitWidth="300.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnCashFlow" mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Cash Flow                                      " textOverrun="CLIP">
+      <ImageView fx:id="imageViewLogo" fitHeight="217.0" fitWidth="300.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="buttonCashFlow" mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Cash Flow                                      " textOverrun="CLIP">
          <graphic>
-            <ImageView fx:id="imCashFlow" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewCashFlow" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></Button>
       <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Inwestycje                                      " textOverrun="CLIP">
          <graphic>
-            <ImageView fx:id="imInwestycje" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewInwestycje" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></Button>
       <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Analityka                                      " textOverrun="CLIP">
          <graphic>
-            <ImageView fx:id="imAnalityka" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewAnalityka" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></Button>
-      <Button fx:id="btnOpcje" mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Opcje                                      " textOverrun="CLIP">
+      <Button fx:id="buttonOpcje" mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Opcje                                      " textOverrun="CLIP">
          <graphic>
-            <ImageView fx:id="imOpcje" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewOpcje" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></Button>
       <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="340.0" text="   Exit                                      " textOverrun="CLIP">
          <graphic>
-            <ImageView fx:id="imExit" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewExit" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></Button>
 
    <opaqueInsets>
