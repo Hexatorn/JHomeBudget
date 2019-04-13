@@ -3,11 +3,8 @@ package hexatorn;
 import hexatorn.controler.Controller_CashFlow;
 import hexatorn.controler.ControllerMenu_MainMenu;
 import hexatorn.controler.ControllerMenu_SubMenuOption;
-import hexatorn.data.Bill;
 import hexatorn.util.database.DataBase_CreateDataBase;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import static hexatorn.util.Resources.getResources;
+import static hexatorn.util.gui.Resources.getResources;
 
 
 public class App extends Application

@@ -1,7 +1,7 @@
 package hexatorn.controler;
 
 import hexatorn.App;
-import hexatorn.util.Resources;
+import hexatorn.util.gui.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -11,7 +11,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
-import static hexatorn.util.Resources.getResources;
+import static hexatorn.util.gui.Resources.getResources;
 public class ControllerMenu_SubMenuOption {
 
     @FXML

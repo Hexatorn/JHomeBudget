@@ -1,6 +1,6 @@
 package hexatorn.controler;
 
-import hexatorn.util.Resources;
+import hexatorn.util.gui.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

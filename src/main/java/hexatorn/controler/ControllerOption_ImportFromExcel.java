@@ -3,7 +3,7 @@ package hexatorn.controler;
 import hexatorn.data.Bill;
 import hexatorn.util.gui.Progress;
 import hexatorn.util.XLSXReader;
-import hexatorn.util.WarningAlert;
+import hexatorn.util.gui.WarningAlert;
 import hexatorn.util.database.DataBase_DataWriter;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

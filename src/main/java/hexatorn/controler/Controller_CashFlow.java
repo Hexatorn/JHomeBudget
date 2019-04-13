@@ -2,7 +2,7 @@ package hexatorn.controler;
 
 import hexatorn.App;
 import hexatorn.data.Bill;
-import hexatorn.util.Resources;
+import hexatorn.util.gui.Resources;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
