@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.IOException;
 import static hexatorn.util.Resources.getResources;
 public class ControllerMenu_SubMenuOption {
@@ -35,17 +34,16 @@ public class ControllerMenu_SubMenuOption {
      * Ustawienie odwołania do klasy rodzica
      * Wykozystane klasie rodzica podczas inicjalizacji menu
      */
-
     private App mainApp;
     public void setMainApp(App mainApp) {
         this.mainApp = mainApp;
     }
 
-
     @FXML
     private void initialize(){
         imLogo.setImage(subImege());
-        btn_import.setOnAction(event -> btnImportFromExcelHandle());
+        btn_import.setOnAction(event -> btnImportHandle());
+        btn_export.setOnAction(event -> btnExportHandle());
     }
 
     /*
@@ -56,10 +54,19 @@ public class ControllerMenu_SubMenuOption {
      * Akcje wykonywane przez przyciski
      * Zmiana zawartości głównego Panelu.
      */
-
-    private void btnImportFromExcelHandle() {
+    private void btnImportHandle() {
         try {
             FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ViewOption_ImportFromExcel.fxml"));
+            AnchorPane importPane = loader.load();
+            mainApp.getRootLayout().setCenter(importPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void btnExportHandle(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getResources("resources/FXML View/ViewOption_ExportFromExcel.fxml"));
             AnchorPane importPane = loader.load();
             mainApp.getRootLayout().setCenter(importPane);
         } catch (IOException e) {

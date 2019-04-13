@@ -1,7 +1,7 @@
 package hexatorn.util.database;
 
 import hexatorn.data.Bill;
-import hexatorn.util.Progress;
+import hexatorn.util.gui.Progress;
 import javafx.collections.ObservableList;
 
 import java.sql.*;

@@ -1,6 +1,7 @@
 package hexatorn.util;
 
 import hexatorn.data.Bill;
+import hexatorn.util.gui.Progress;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.Cell;

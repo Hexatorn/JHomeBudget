@@ -1,4 +1,4 @@
-package hexatorn.util;
+package hexatorn.util.gui;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;

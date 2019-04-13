@@ -1,7 +1,7 @@
 package hexatorn.controler;
 
 import hexatorn.data.Bill;
-import hexatorn.util.Progress;
+import hexatorn.util.gui.Progress;
 import hexatorn.util.XLSXReader;
 import hexatorn.util.WarningAlert;
 import hexatorn.util.database.DataBase_DataWriter;
@@ -12,12 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.FilenameUtils;
-
 import java.io.File;
-
 
 public class ControllerOption_ImportFromExcel {
 
