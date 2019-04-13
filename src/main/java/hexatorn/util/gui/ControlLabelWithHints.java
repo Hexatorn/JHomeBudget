@@ -1,5 +1,6 @@
 package hexatorn.util.gui;
-import hexatorn.util.database.DataBase_DataReader;
+import hexatorn.util.database.DBReader_GetMaxDate;
+import hexatorn.util.database.DBReader_GetMinDate;
 import javafx.scene.control.Label;
 import java.time.LocalDate;
 
@@ -12,8 +13,9 @@ import java.time.LocalDate;
 public class ControlLabelWithHints {
     private Label labelWithHints;
     private boolean clerDataPicker = false;
-    private LocalDate maxDate = DataBase_DataReader.getMaxDate();
-    private LocalDate minDate = DataBase_DataReader.getMinDate();
+    private boolean createBillReader = false;
+    private LocalDate maxDate = new DBReader_GetMaxDate().read();
+    private LocalDate minDate = new DBReader_GetMinDate().read();
 
     public ControlLabelWithHints(Label labelWithHints){
         this.labelWithHints = labelWithHints;
@@ -21,6 +23,7 @@ public class ControlLabelWithHints {
 
     public void updateLabel(LocalDate fromDate, LocalDate toDate, WhoCall caller){
         clerDataPicker = false;
+        createBillReader = false;
         String message = "";
         if (fromDate!=null && toDate!=null && fromDate.isAfter(toDate) && caller==WhoCall.FromeDate){
             clerDataPicker = true;
@@ -36,6 +39,9 @@ public class ControlLabelWithHints {
         if (toDate!=null && toDate.isBefore(minDate)){
             message +="\nZmień Date do. Najmniejsza wprowadzona data do aplikacji to "+ minDate;
         }
+        if(message.equals("") && fromDate!=null && toDate!=null){
+            createBillReader = true;
+        }
         labelWithHints.setText(message);
     }
     /*
@@ -46,6 +52,9 @@ public class ControlLabelWithHints {
     */
     public boolean isClerDataPicker() {
         return clerDataPicker;
+    }
+    public boolean isCreateBillReader() {
+        return createBillReader;
     }
 
     public enum WhoCall{

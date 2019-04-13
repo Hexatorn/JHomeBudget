@@ -2,6 +2,8 @@ package hexatorn.controler;
 
 import hexatorn.App;
 import hexatorn.data.Bill;
+import hexatorn.util.database.DBBillsReader;
+import hexatorn.util.database.DBBillsReader_PerMonth;
 import hexatorn.util.gui.Resources;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -21,9 +23,6 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
-import static hexatorn.util.database.DataBase_DataReader.readBillsFromOneMonthFromDataBase;
-
 
 public class Controller_CashFlow {
     private ArrayList<Double> percentColumnWidthArrayList = new ArrayList<>();
@@ -157,7 +156,8 @@ public class Controller_CashFlow {
     private void reloadListOfBills() {
         String month = String.format("%02d", date.getMonth().getValue());
         String yer = ""+ date.getYear();
-        listOfBills = readBillsFromOneMonthFromDataBase(yer,month);
+        DBBillsReader DBReaderBills = new DBBillsReader_PerMonth(yer,month);
+        listOfBills = DBReaderBills.read();
         tableViewBills.setItems(listOfBills);
     }
 
